@@ -1,0 +1,22 @@
+{
+  "name": "ecommerce-project",
+  "version": "1.0.0",
+  "description": "Ecommerce app",
+  "main": "server.js",
+  "scripts": {
+    "start": "node backend/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ionutz-dev/mern-ecommerce-app.git"
+  },
+  "author": "Ionut Nita",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ionutz-dev/mern-ecommerce-app/issues"
+  },
+  "homepage": "https://github.com/Ionutz-dev/mern-ecommerce-app#readme",
+  "dependencies": {
+    "express": "^4.17.2"
+  }
+}
