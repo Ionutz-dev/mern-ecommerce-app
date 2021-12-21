@@ -716,14 +716,14 @@ progress {
   }
 }
 
-@media (min-width: 1400px) {
+@media (min-width: 1800px) {
   .container,
   .container-sm,
   .container-md,
   .container-lg,
   .container-xl,
   .container-xxl {
-    max-width: 1250px;
+    max-width: 1350px;
   }
 }
 
