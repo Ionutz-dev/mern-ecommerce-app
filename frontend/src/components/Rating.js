@@ -65,7 +65,7 @@ const Rating = props => {
           }
         ></i>
       </span>
-      {text && text}
+      <div className='w-100'>{text && text}</div>
     </div>
   );
 };

@@ -1,35 +1,43 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
-import axios from 'axios';
 
 import Product from '../components/Product';
+import Loader from '../components/Loader';
+import Message from '../components/Message';
+
+import { fetchProducts } from '../store/products-list-slice';
 
 const HomeScreen = () => {
-  const [products, setProducts] = useState([]);
+  const dispatch = useDispatch();
+  const products = useSelector(state => state.productsList.productsList);
+  const loadingProducts = useSelector(state => state.productsList.loading);
+  const error = useSelector(state => state.productsList.error);
 
   useEffect(() => {
-    const fetchProducts = async () => {
-      const response = await axios.get('/api/products');
-
-      const { data } = response;
-
-      setProducts(data);
-    };
-    fetchProducts();
-  }, []);
+    dispatch(fetchProducts());
+  }, [dispatch]);
 
   return (
     <>
       <h1>Latest products</h1>
-      <Row>
-        {products.map(product => {
-          return (
-            <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
-              <Product product={product} />
-            </Col>
-          );
-        })}
-      </Row>
+      {loadingProducts ? (
+        <Loader />
+      ) : error !== '' ? (
+        <Message variant='light'>Products couldn't load</Message>
+      ) : (
+        <>
+          <Row>
+            {products.map(product => {
+              return (
+                <Col key={product._id} sm={12} md={6} lg={4} xl={3}>
+                  <Product product={product} />
+                </Col>
+              );
+            })}
+          </Row>
+        </>
+      )}
     </>
   );
 };
