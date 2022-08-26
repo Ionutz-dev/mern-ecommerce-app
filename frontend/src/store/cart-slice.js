@@ -4,8 +4,8 @@ const cartSlice = createSlice({
   name: 'cart',
   initialState: {
     cartItems: [],
-    totalQuantity: 0,
-    changed: false,
+    paymentMethod: '',
+    shippingAddress: {},
   },
   reducers: {
     addCartItem(state, action) {
@@ -28,6 +28,8 @@ const cartSlice = createSlice({
         if (message === 'fromCartScreen') existingItem.qty = qty;
         else existingItem.qty += qty;
       }
+
+      localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
     },
     removeCartItem(state, action) {
       const id = action.payload;
@@ -38,14 +40,31 @@ const cartSlice = createSlice({
       } else {
         existingItem.qty--;
       }
+
+      localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
+    },
+    saveShippingAddress(state, action) {
+      state.shippingAddress = action.payload;
+      localStorage.setItem('shippingAddress', JSON.stringify(action.payload));
+    },
+    savePaymentMethod(state, action) {
+      console.log(action.payload);
+      state.paymentMethod = action.payload;
+      localStorage.setItem('paymentMethod', JSON.stringify(action.payload));
     },
     clearCartItems(state, action) {
       state.cartItems = [];
+      localStorage.setItem('cartItems', JSON.stringify([]));
     },
   },
 });
 
-export const { addCartItem, removeCartItem, clearCartItems } =
-  cartSlice.actions;
+export const {
+  addCartItem,
+  removeCartItem,
+  clearCartItems,
+  saveShippingAddress,
+  savePaymentMethod,
+} = cartSlice.actions;
 
 export default cartSlice;

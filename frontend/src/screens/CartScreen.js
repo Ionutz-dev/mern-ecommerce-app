@@ -1,5 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import {
   Row,
@@ -15,6 +16,8 @@ import { addCartItem, removeCartItem } from '../store/cart-slice';
 
 const CartScreen = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
   const cart = useSelector(state => state.cart);
   const { cartItems } = cart;
 
@@ -22,17 +25,23 @@ const CartScreen = () => {
     dispatch(removeCartItem(id));
   };
 
+  const checkoutHandler = () => {
+    navigate('/login?redirect=shipping');
+  };
+
   return (
     <Row>
       <Col md={8}>
         <h1>Shopping Cart</h1>
         {cartItems.length === 0 ? (
-          <Message>
-            <p style={{ fontSize: '2rem' }}>Your cart is empty</p>
-            <Link to='/' style={{ textDecoration: 'none', width: '100%' }}>
-              Go Back
-            </Link>
-          </Message>
+          <div className='min-60vh d-flex justify-content-center align-items-center'>
+            <Message>
+              <p style={{ fontSize: '2rem' }}>Your cart is empty</p>
+              <Link to='/' style={{ textDecoration: 'none', width: '100%' }}>
+                Go Back
+              </Link>
+            </Message>
+          </div>
         ) : (
           <ListGroup variant='flush'>
             {cartItems.map(item => {
@@ -106,6 +115,7 @@ const CartScreen = () => {
                 type='button'
                 className='btn-block'
                 disabled={cartItems.length === 0}
+                onClick={checkoutHandler}
               >
                 Proceed To Checkout
               </Button>

@@ -4,14 +4,45 @@ import axios from 'axios';
 export const fetchProductById = createAsyncThunk(
   'products/fetchProductById',
   async productId => {
-    const response = await axios.get(`/api/products/${productId}`);
+    const { data } = await axios.get(`/api/products/${productId}`);
 
-    return response.data;
+    return data;
   }
 );
 
+export const fetchProducts = createAsyncThunk(
+  'products/fetchProducts',
+  async () => {
+    const { data } = await axios.get('/api/products');
+
+    return data;
+  }
+);
+
+const productsListSlice = createSlice({
+  name: 'productsList',
+  initialState: {
+    loading: false,
+    productsList: [],
+    error: '',
+  },
+  extraReducers: builder => {
+    builder.addCase(fetchProducts.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(fetchProducts.fulfilled, (state, action) => {
+      state.productsList = action.payload;
+      state.loading = false;
+    });
+    builder.addCase(fetchProducts.rejected, (state, action) => {
+      state.error = action.error.message;
+      state.loading = false;
+    });
+  },
+});
+
 const productDetailsSlice = createSlice({
-  name: 'products',
+  name: 'productDetails',
   initialState: {
     loading: false,
     productDetails: {},
@@ -39,4 +70,4 @@ const productDetailsSlice = createSlice({
 
 export const { resetProductDetails } = productDetailsSlice.actions;
 
-export default productDetailsSlice;
+export { productsListSlice, productDetailsSlice };
