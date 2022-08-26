@@ -1,42 +1,60 @@
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import {
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from 'reduxjs-toolkit-persist';
-import storage from 'reduxjs-toolkit-persist/lib/storage';
+import { configureStore } from '@reduxjs/toolkit';
 
-import productsListSlice from './products-list-slice';
-import productDetailsSlice from './product-details-slice';
-import uiSlice from './ui-slice';
+import { productsListSlice, productDetailsSlice } from './product-slice';
 import cartSlice from './cart-slice';
+import {
+  userRegisterSlice,
+  userLoginSlice,
+  userDetailsSlice,
+  userUpdateProfileSlice,
+} from './user-slice';
+import {
+  createOrderSlice,
+  orderDetailsSlice,
+  orderPaySlice,
+  ordersMyListSlice,
+} from './order-slice';
 
-const persistConfig = {
-  key: 'root',
-  storage,
-  whitelist: ['cart'],
+const cartItemsFromStorage = localStorage.getItem('cartItems')
+  ? JSON.parse(localStorage.getItem('cartItems'))
+  : [];
+
+const userInfoFromStorage = localStorage.getItem('userInfo')
+  ? JSON.parse(localStorage.getItem('userInfo'))
+  : {};
+
+const shippingAddressFromStorage = localStorage.getItem('shippingAddress')
+  ? JSON.parse(localStorage.getItem('shippingAddress'))
+  : {};
+
+const paymentMethodFromStorage = localStorage.getItem('paymentMethod')
+  ? JSON.parse(localStorage.getItem('paymentMethod'))
+  : '';
+
+const initialState = {
+  cart: {
+    cartItems: cartItemsFromStorage,
+    shippingAddress: shippingAddressFromStorage,
+    paymentMethod: paymentMethodFromStorage,
+  },
+  userLogin: { userInfo: userInfoFromStorage },
 };
 
-const rootReducer = combineReducers({
-  productsList: productsListSlice.reducer,
-  productDetails: productDetailsSlice.reducer,
-  cart: cartSlice.reducer,
-});
-
-const persistedReducer = persistReducer(persistConfig, rootReducer);
-
 const store = configureStore({
-  reducer: persistedReducer,
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      },
-    }),
+  reducer: {
+    productsList: productsListSlice.reducer,
+    productDetails: productDetailsSlice.reducer,
+    cart: cartSlice.reducer,
+    userRegister: userRegisterSlice.reducer,
+    userLogin: userLoginSlice.reducer,
+    userDetails: userDetailsSlice.reducer,
+    userUpdateProfile: userUpdateProfileSlice.reducer,
+    createOrder: createOrderSlice.reducer,
+    orderDetails: orderDetailsSlice.reducer,
+    orderPay: orderPaySlice.reducer,
+    ordersMyList: ordersMyListSlice.reducer,
+  },
+  preloadedState: initialState,
 });
 
 export default store;

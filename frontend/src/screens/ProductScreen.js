@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Link, useParams, useNavigate } from 'react-router-dom';
+import { Link, useParams, useNavigate, useLocation } from 'react-router-dom';
 import {
   Row,
   Col,
@@ -16,24 +16,23 @@ import Rating from '../components/Rating';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
-import {
-  fetchProductById,
-  resetProductDetails,
-} from '../store/product-details-slice';
+import { fetchProductById, resetProductDetails } from '../store/product-slice';
 import { addCartItem } from '../store/cart-slice';
 
 const ProductScreen = props => {
   const [qty, setQty] = useState(1);
 
-  let params = useParams();
-  let navigate = useNavigate();
-  const { id } = params;
+  let { id } = useParams();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const dispatch = useDispatch();
 
   const product = useSelector(state => state.productDetails.productDetails);
   const loadingProduct = useSelector(state => state.productDetails.loading);
   const error = useSelector(state => state.productDetails.error);
+
+  const prevLocation = location.search ? location.search.split('=')[1] : '/';
 
   useEffect(() => {
     dispatch(fetchProductById(id));
@@ -50,7 +49,10 @@ const ProductScreen = props => {
 
   return (
     <>
-      <Link className='btn btn-light my-3' to='/'>
+      <Link
+        className='btn btn-light my-3'
+        to={prevLocation ? `/${prevLocation}` : '/'}
+      >
         Go back
       </Link>
       {loadingProduct ? (

@@ -6,7 +6,7 @@ import Product from '../components/Product';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
-import { fetchProducts } from '../store/products-list-slice';
+import { fetchProducts } from '../store/product-slice';
 
 const HomeScreen = () => {
   const dispatch = useDispatch();
@@ -24,7 +24,9 @@ const HomeScreen = () => {
       {loadingProducts ? (
         <Loader />
       ) : error !== '' ? (
-        <Message variant='light'>Products couldn't load</Message>
+        <div className='min-60vh d-flex justify-content-center align-items-center'>
+          <Message variant='light'>Products couldn't load</Message>
+        </div>
       ) : (
         <>
           <Row>
