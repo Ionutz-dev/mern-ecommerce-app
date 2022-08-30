@@ -16,7 +16,10 @@ import Rating from '../components/Rating';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
-import { fetchProductById, resetProductDetails } from '../store/product-slice';
+import {
+  listProductDetails,
+  resetProductDetails,
+} from '../store/product-slice';
 import { addCartItem } from '../store/cart-slice';
 
 const ProductScreen = props => {
@@ -35,7 +38,7 @@ const ProductScreen = props => {
   const prevLocation = location.search ? location.search.split('=')[1] : '/';
 
   useEffect(() => {
-    dispatch(fetchProductById(id));
+    dispatch(listProductDetails(id));
 
     return () => {
       dispatch(resetProductDetails());
@@ -51,7 +54,7 @@ const ProductScreen = props => {
     <>
       <Link
         className='btn btn-light my-3'
-        to={prevLocation ? `/${prevLocation}` : '/'}
+        to={prevLocation !== '/' ? `/${prevLocation}` : '/'}
       >
         Go back
       </Link>
@@ -76,7 +79,9 @@ const ProductScreen = props => {
                 />
               </ListGroup.Item>
               <ListGroup.Item>Price: ${product.price}</ListGroup.Item>
-              <ListGroup.Item>Description {product.description}</ListGroup.Item>
+              <ListGroup.Item>
+                Description: {product.description}
+              </ListGroup.Item>
             </ListGroup>
           </Col>
           <Col md={3}>

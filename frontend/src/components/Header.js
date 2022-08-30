@@ -32,7 +32,7 @@ const Header = () => {
           <Navbar.Collapse id='basic-navbar-nav'>
             <Nav className='ms-auto'>
               <LinkContainer to='/cart'>
-                <Nav.Link className='me-3' active={false}>
+                <Nav.Link className='me-4' active={false}>
                   <i className='fas fa-shopping-cart me-1'></i>Cart
                 </Nav.Link>
               </LinkContainer>
@@ -52,6 +52,19 @@ const Header = () => {
                     <i className='fas fa-user me-1'></i>Sign In
                   </Nav.Link>
                 </LinkContainer>
+              )}
+              {Object.keys(userInfo).length !== 0 && userInfo.isAdmin && (
+                <NavDropdown title='Admin' id='adminmenu'>
+                  <LinkContainer to='/admin/userlist'>
+                    <NavDropdown.Item>Users</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/admin/productlist'>
+                    <NavDropdown.Item>Products</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to='/admin/orderlist'>
+                    <NavDropdown.Item>Orders</NavDropdown.Item>
+                  </LinkContainer>
+                </NavDropdown>
               )}
             </Nav>
           </Navbar.Collapse>
