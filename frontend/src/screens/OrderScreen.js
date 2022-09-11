@@ -9,6 +9,7 @@ import axios from 'axios';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import PayPalButton from '../components/PayPalButton';
+import Meta from '../components/Meta';
 
 import {
   getOrderDetails,
@@ -92,6 +93,7 @@ const OrderScreen = () => {
     <Message variant='danger'>{error}</Message>
   ) : (
     <>
+      <Meta title='Order Details Page' />
       <h1
         style={{
           fontSize: '1.3em',

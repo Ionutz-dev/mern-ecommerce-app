@@ -7,6 +7,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import Paginate from '../components/Paginate.js';
+import Meta from '../components/Meta';
 
 import {
   listProducts,
@@ -78,6 +79,7 @@ const ProductListScreen = () => {
 
   return (
     <>
+      <Meta title='Products List Page' />
       <Row className='align-items-center'>
         <Col>
           <h1>Products</h1>

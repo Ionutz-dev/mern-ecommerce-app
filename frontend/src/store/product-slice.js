@@ -77,12 +77,12 @@ export const listProductDetails = createAsyncThunk(
 const productDetailsSlice = createSlice({
   name: 'productDetails',
   initialState: {
-    loading: false,
+    loading: true,
     productDetails: {},
     error: '',
   },
   reducers: {
-    resetProductDetails(state, action) {
+    productDetailsReset(state, action) {
       state.productDetails = {};
     },
   },
@@ -101,7 +101,7 @@ const productDetailsSlice = createSlice({
   },
 });
 
-export const { resetProductDetails } = productDetailsSlice.actions;
+export const { productDetailsReset } = productDetailsSlice.actions;
 
 export const deleteProduct = createAsyncThunk(
   'products/deleteProduct',
@@ -231,6 +231,7 @@ export const updateProduct = createAsyncThunk(
         }
       );
 
+      dispatch(listProductDetails(product._id));
       return data;
     } catch (err) {
       const message =
@@ -282,11 +283,11 @@ export const { productUpdateReset } = productUpdateSlice.actions;
 
 export const createProductReview = createAsyncThunk(
   'products/createProductReview',
-  async ({ productId, review }, { rejectWithValue, dispatch }) => {
+  async ({ id: productId, rating, comment }, { rejectWithValue, dispatch }) => {
     try {
       const { data } = await axios.post(
         `/api/products/${productId}/reviews`,
-        review,
+        { rating, comment },
         {
           headers: {
             Authorization: `Bearer ${
@@ -368,14 +369,14 @@ const productsTopRatedSlice = createSlice({
     error: '',
   },
   extraReducers: builder => {
-    builder.addCase(createProductReview.pending, (state, action) => {
+    builder.addCase(listTopProducts.pending, (state, action) => {
       state.loading = true;
     });
-    builder.addCase(createProductReview.fulfilled, (state, action) => {
+    builder.addCase(listTopProducts.fulfilled, (state, action) => {
       state.products = action.payload;
       state.loading = false;
     });
-    builder.addCase(createProductReview.rejected, (state, action) => {
+    builder.addCase(listTopProducts.rejected, (state, action) => {
       state.error = action.payload;
       state.loading = false;
     });

@@ -9,6 +9,7 @@ import Message from '../components/Message';
 import Loader from '../components/Loader';
 
 import { listUsers, deleteUser } from '../store/user-slice';
+import Meta from '../components/Meta';
 
 const UserListScreen = () => {
   const dispatch = useDispatch();
@@ -39,6 +40,7 @@ const UserListScreen = () => {
 
   return (
     <>
+      <Meta title='Users List Page' />
       <h1>Users</h1>
       {loading ? (
         <Loader />

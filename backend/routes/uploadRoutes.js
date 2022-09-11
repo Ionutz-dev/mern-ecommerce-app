@@ -48,9 +48,10 @@ router.post(
   upload.single('image'),
   asyncHandler(async (req, res) => {
     const uploadPhoto = await cloudinary.uploader.upload(`${req.file.path}`, {
-      width: 600,
+      width: 640,
       height: 510,
       crop: 'pad',
+      background: 'white',
     });
     res.send(uploadPhoto.url);
   })

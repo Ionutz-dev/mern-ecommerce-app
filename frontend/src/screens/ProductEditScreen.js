@@ -7,6 +7,7 @@ import axios from 'axios';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
+import Meta from '../components/Meta';
 
 import {
   listProductDetails,
@@ -97,6 +98,7 @@ const ProductEditScreen = () => {
 
   return (
     <>
+      <Meta title='Product Edit Page' />
       <Link to='/admin/productlist' className='btn btn-light my-3'>
         Go Back
       </Link>

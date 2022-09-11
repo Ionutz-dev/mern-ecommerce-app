@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Message from '../components/Message';
 import Loader from '../components/Loader';
 import FormContainer from '../components/FormContainer';
+import Meta from '../components/Meta';
 
 import {
   getUserDetails,
@@ -56,6 +57,7 @@ const UserEditScreen = () => {
 
   return (
     <>
+      <Meta title='User Edit Page' />
       <Link to='/admin/userlist' className='btn btn-light my-3'>
         Go Back
       </Link>

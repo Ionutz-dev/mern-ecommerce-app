@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Message from '../components/Message';
 import Loader from '../components/Loader';
+import Meta from '../components/Meta';
 
 import { listOrders } from '../store/order-slice';
 
@@ -29,6 +30,7 @@ const OrderListScreen = () => {
 
   return (
     <>
+      <Meta title='Users List Page' />
       <h1>Orders</h1>
       {loading ? (
         <Loader />
