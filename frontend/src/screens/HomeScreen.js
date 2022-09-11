@@ -1,25 +1,47 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
+import { Link, useParams } from 'react-router-dom';
 
 import Product from '../components/Product';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import Paginate from '../components/Paginate';
+import ProductCarousel from '../components/ProductCarousel';
+import Meta from '../components/Meta';
 
-import { fetchProducts } from '../store/product-slice';
+import { listProducts } from '../store/product-slice';
 
 const HomeScreen = () => {
+  const params = useParams();
   const dispatch = useDispatch();
-  const products = useSelector(state => state.productsList.productsList);
-  const loadingProducts = useSelector(state => state.productsList.loading);
-  const error = useSelector(state => state.productsList.error);
+
+  const keyword = params.keyword;
+  const pageNumber = params.pageNumber || 1;
+
+  const productsList = useSelector(state => state.productsList);
+  const {
+    loading: loadingProducts,
+    error,
+    productsList: products,
+    page,
+    pages,
+  } = productsList;
 
   useEffect(() => {
-    dispatch(fetchProducts());
-  }, [dispatch]);
+    dispatch(listProducts({ keyword, pageNumber }));
+  }, [dispatch, keyword, pageNumber]);
 
   return (
     <>
+      <Meta title='Welcome to PremiumShop | Home' />
+      {!keyword ? (
+        <ProductCarousel />
+      ) : (
+        <Link to='/' className='btn btn-light'>
+          Go Back
+        </Link>
+      )}
       <h1>Latest products</h1>
       {loadingProducts ? (
         <Loader />
@@ -38,6 +60,11 @@ const HomeScreen = () => {
               );
             })}
           </Row>
+          <Paginate
+            pages={pages}
+            page={page}
+            keyword={keyword ? keyword : ''}
+          />
         </>
       )}
     </>

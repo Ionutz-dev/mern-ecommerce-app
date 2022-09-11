@@ -179,6 +179,69 @@ const orderPaySlice = createSlice({
 
 export const { orderPayReset } = orderPaySlice.actions;
 
+export const deliverOrder = createAsyncThunk(
+  'order/ordersMyList',
+  async (order, { dispatch, rejectWithValue }) => {
+    try {
+      const { data } = await axios.put(
+        `/api/orders/${order._id}/deliver`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${
+              JSON.parse(localStorage.getItem('userInfo')).token
+            }`,
+          },
+        }
+      );
+
+      return data;
+    } catch (err) {
+      const message =
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message;
+      if (message === 'Not authorized, token failed') {
+        dispatch(logoutUser());
+      }
+
+      rejectWithValue(message);
+    }
+  }
+);
+
+const orderDeliverSlice = createSlice({
+  name: 'orderDeliverSlice',
+  initialState: {
+    success: false,
+    loading: false,
+    error: '',
+  },
+  reducers: {
+    orderDeliverReset(state, action) {
+      state.success = false;
+      state.loading = false;
+      state.error = '';
+    },
+  },
+  extraReducers: builder => {
+    builder.addCase(deliverOrder.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(deliverOrder.fulfilled, (state, action) => {
+      state.success = true;
+      state.loading = false;
+    });
+    builder.addCase(deliverOrder.rejected, (state, action) => {
+      console.log(action);
+      state.error = action.payload;
+      state.loading = false;
+    });
+  },
+});
+
+export const { orderDeliverReset } = orderDeliverSlice.actions;
+
 export const listMyOrders = createAsyncThunk(
   'order/ordersMyList',
   async (ordersData, { dispatch, rejectWithValue }) => {
@@ -238,9 +301,67 @@ const ordersMyListSlice = createSlice({
 
 export const { ordersMyListReset } = ordersMyListSlice.actions;
 
+export const listOrders = createAsyncThunk(
+  'order/ordersList',
+  async (orders, { dispatch, rejectWithValue }) => {
+    try {
+      const { data } = await axios.get(`/api/orders`, {
+        headers: {
+          Authorization: `Bearer ${
+            JSON.parse(localStorage.getItem('userInfo')).token
+          }`,
+        },
+      });
+
+      return data;
+    } catch (err) {
+      const message =
+        err.response && err.response.data.message
+          ? err.response.data.message
+          : err.message;
+      if (message === 'Not authorized, token failed') {
+        dispatch(logoutUser());
+      }
+
+      rejectWithValue(message);
+    }
+  }
+);
+
+const ordersListSlice = createSlice({
+  name: 'ordersListSlice',
+  initialState: {
+    orders: [],
+    loading: false,
+    error: '',
+  },
+  reducers: {
+    ordersMyListReset(state, action) {
+      state.orders = [];
+      state.loading = false;
+      state.error = '';
+    },
+  },
+  extraReducers: builder => {
+    builder.addCase(listOrders.pending, (state, action) => {
+      state.loading = true;
+    });
+    builder.addCase(listOrders.fulfilled, (state, action) => {
+      state.orders = action.payload;
+      state.loading = false;
+    });
+    builder.addCase(listOrders.rejected, (state, action) => {
+      state.error = action.payload;
+      state.loading = false;
+    });
+  },
+});
+
 export {
   createOrderSlice,
   orderDetailsSlice,
   orderPaySlice,
+  orderDeliverSlice,
   ordersMyListSlice,
+  ordersListSlice,
 };

@@ -697,6 +697,13 @@ progress {
   }
 }
 
+@media (max-width: 1000px) {
+  .search-box {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
 @media (min-width: 992px) {
   .container,
   .container-sm,
@@ -8517,6 +8524,10 @@ fieldset:disabled .btn {
 .bg-white {
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-white-rgb), var(--bs-bg-opacity)) !important;
+}
+
+.bg-grey {
+  background-color: #a0a0a0;
 }
 
 .bg-body {

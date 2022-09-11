@@ -103,8 +103,6 @@ export const updateOrderToDelivered = asyncHandler(async (req, res) => {
 export const getMyOrders = asyncHandler(async (req, res) => {
   const orders = await Order.find({ user: req.user._id });
 
-  console.log(orders);
-
   res.json(orders);
 });
 

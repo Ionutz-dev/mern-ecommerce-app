@@ -1,17 +1,30 @@
 import { configureStore } from '@reduxjs/toolkit';
 
-import { productsListSlice, productDetailsSlice } from './product-slice';
+import {
+  productsListSlice,
+  productDetailsSlice,
+  productDeleteSlice,
+  productCreateSlice,
+  productUpdateSlice,
+  productReviewCreateSlice,
+  productsTopRatedSlice,
+} from './product-slice';
 import cartSlice from './cart-slice';
 import {
   userRegisterSlice,
   userLoginSlice,
   userDetailsSlice,
   userUpdateProfileSlice,
+  userListSlice,
+  userDeleteSlice,
+  userUpdateSlice,
 } from './user-slice';
 import {
   createOrderSlice,
   orderDetailsSlice,
+  orderDeliverSlice,
   orderPaySlice,
+  ordersListSlice,
   ordersMyListSlice,
 } from './order-slice';
 
@@ -52,7 +65,17 @@ const store = configureStore({
     createOrder: createOrderSlice.reducer,
     orderDetails: orderDetailsSlice.reducer,
     orderPay: orderPaySlice.reducer,
+    orderDeliver: orderDeliverSlice.reducer,
     ordersMyList: ordersMyListSlice.reducer,
+    userList: userListSlice.reducer,
+    userDelete: userDeleteSlice.reducer,
+    userUpdate: userUpdateSlice.reducer,
+    productDelete: productDeleteSlice.reducer,
+    productCreate: productCreateSlice.reducer,
+    productUpdate: productUpdateSlice.reducer,
+    productReviewCreate: productReviewCreateSlice.reducer,
+    productsTopRated: productsTopRatedSlice.reducer,
+    ordersList: ordersListSlice.reducer,
   },
   preloadedState: initialState,
 });

@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 import Message from '../components/Message';
 import CheckoutSteps from '../components/CheckoutSteps';
+import Meta from '../components/Meta';
 
 import { createOrder, createOrderReset } from '../store/order-slice';
 import { userDetailsReset } from '../store/user-slice';
@@ -69,6 +70,7 @@ const PlaceOrderScreen = () => {
 
   return (
     <>
+      <Meta title='Place Order Page' />
       <CheckoutSteps step1 step2 step3 step4 />
       <Row>
         <Col md={8}>
