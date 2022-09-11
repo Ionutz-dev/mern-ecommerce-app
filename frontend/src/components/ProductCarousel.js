@@ -32,11 +32,7 @@ const ProductCarousel = () => {
                 {product.name} (${product.price})
               </h2>
             </Carousel.Caption>
-            <img
-              // className='d-block w-100'
-              src={product.image}
-              alt={product.name}
-            />
+            <img src={product.image} alt={product.name} />
           </Link>
         </Carousel.Item>
       ))}

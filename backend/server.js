@@ -3,7 +3,6 @@ import path from 'path';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import helmet from 'helmet';
-// import xssClean from 'xss-clean';
 import mongoSanitize from 'express-mongo-sanitize';
 import rateLimit from 'express-rate-limit';
 import hpp from 'hpp';
@@ -32,7 +31,6 @@ app.use(
     contentSecurityPolicy: false,
   })
 );
-// app.use(xssClean());
 app.use(mongoSanitize());
 app.use(hpp());
 
@@ -61,9 +59,6 @@ cloudinary.config({
   api_secret: process.env.CLOUD_API_SECRET,
   secure: true,
 });
-
-// const __dirname = path.resolve();
-// app.use('/uploads', express.static(path.join(__dirname, '/uploads')));
 
 if (process.env.NODE_ENV === 'production') {
   app.use(express.static(path.join(__dirname, '/frontend/build')));
